@@ -3,8 +3,6 @@ project (DiscordRPC)
 
 include(GNUInstallDirs)
 
-option(BUILD_EXAMPLES "Build example apps" ON)
-
 # format
 file(GLOB_RECURSE ALL_SOURCE_FILES
     examples/*.cpp examples/*.h examples/*.c
@@ -49,8 +47,4 @@ find_file(RAPIDJSON NAMES rapidjson rapidjson-1.1.0 PATHS ${CMAKE_CURRENT_SOURCE
 add_library(rapidjson STATIC IMPORTED ${RAPIDJSON})
 
 # add subdirs
-
 add_subdirectory(src)
-if (BUILD_EXAMPLES)
-    add_subdirectory(examples/send-presence)
-endif(BUILD_EXAMPLES)
