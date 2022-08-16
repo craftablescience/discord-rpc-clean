@@ -23,6 +23,11 @@
 extern "C" {
 #endif
 
+typedef struct DiscordButton {
+    const char* label;
+    const char* url;
+} DiscordButton;
+
 typedef struct DiscordRichPresence {
     const char* state;   /* max 128 bytes */
     const char* details; /* max 128 bytes */
@@ -40,6 +45,7 @@ typedef struct DiscordRichPresence {
     const char* joinSecret;     /* max 128 bytes */
     const char* spectateSecret; /* max 128 bytes */
     int8_t instance;
+    const DiscordButton* buttons;
 } DiscordRichPresence;
 
 typedef struct DiscordUser {
@@ -63,6 +69,8 @@ typedef struct DiscordEventHandlers {
 #define DISCORD_REPLY_IGNORE 2
 #define DISCORD_PARTY_PRIVATE 0
 #define DISCORD_PARTY_PUBLIC 1
+#define DISCORD_ACTIVITY_ACTION_TYPE_JOIN 1
+#define DISCORD_ACTIVITY_ACTION_TYPE_SPECTATE 2
 
 DISCORD_EXPORT void Discord_Initialize(const char* applicationId,
                                        DiscordEventHandlers* handlers,
@@ -84,6 +92,9 @@ DISCORD_EXPORT void Discord_ClearPresence(void);
 DISCORD_EXPORT void Discord_Respond(const char* userid, /* DISCORD_REPLY_ */ int reply);
 
 DISCORD_EXPORT void Discord_UpdateHandlers(DiscordEventHandlers* handlers);
+
+DISCORD_EXPORT void Discord_OpenActivityInvite(/* DISCORD_ACTIVITY_ACTION_TYPE_ */ int8_t type);
+DISCORD_EXPORT void Discord_OpenGuildInvite(const char* code);
 
 #ifdef __cplusplus
 } /* extern "C" */
