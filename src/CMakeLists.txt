@@ -41,7 +41,8 @@ if(WIN32)
                 string(REPLACE "/MD" "/MT" ${CompilerFlag} "${${CompilerFlag}}")
             endforeach()
         endif(USE_STATIC_CRT)
-        target_compile_options(discord-rpc PRIVATE /EHsc
+        target_compile_options(discord-rpc PRIVATE
+            /EHsc
             /Wall
             /wd4100 # unreferenced formal parameter
             /wd4514 # unreferenced inline
@@ -55,6 +56,13 @@ if(WIN32)
             /wd4946 # reinterpret_cast used between related classes
             /wd5027 # move assignment operator was implicitly defined as deleted
         )
+        # Needed because of RapidJSON:
+        target_compile_options(discord-rpc PRIVATE
+            /wd5045 # Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+        )
+        if(CMAKE_VS_PLATFORM_NAME MATCHES "^[Aa][Rr][Mm]64$")
+            target_compile_definitions(discord-rpc PRIVATE -DRAPIDJSON_ENDIAN=0) # RAPIDJSON_LITTLEENDIAN
+        endif()
     endif(MSVC)
     target_link_libraries(discord-rpc PRIVATE psapi advapi32)
 endif(WIN32)
@@ -109,7 +117,7 @@ if(UNIX)
     endif (APPLE)
 endif(UNIX)
 
-target_include_directories(discord-rpc PRIVATE ${RAPIDJSON}/include)
+target_include_directories(discord-rpc SYSTEM PRIVATE "${RAPIDJSON}/include")
 
 if (NOT ${ENABLE_IO_THREAD})
     target_compile_definitions(discord-rpc PUBLIC -DDISCORD_DISABLE_IO_THREAD)
