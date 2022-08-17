@@ -158,13 +158,8 @@ size_t JsonWriteRichPresenceObj(char* dest,
                         WriteOptionalString(writer, "join", presence->joinSecret);
                         WriteOptionalString(writer, "spectate", presence->spectateSecret);
                     }
-                }
-
-                writer.Key("instance");
-                writer.Bool(presence->instance != 0);
-
-                if (presence->buttons) {
-                    const auto btns = presence->buttons;
+                } else {
+                    const auto* btns = presence->buttons;
                     WriteArray buttons(writer, "buttons");
 
                     if (btns[0].label && btns[0].label[0]) {
@@ -183,6 +178,9 @@ size_t JsonWriteRichPresenceObj(char* dest,
                         writer.String(btns[1].label);
                     }
                 }
+
+                writer.Key("instance");
+                writer.Bool(presence->instance != 0);
             }
         }
     }
