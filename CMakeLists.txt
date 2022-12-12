@@ -1,5 +1,5 @@
-cmake_minimum_required (VERSION 3.2.0)
-project (DiscordRPC)
+cmake_minimum_required(VERSION 3.9)
+project(DiscordRPC)
 
 include(GNUInstallDirs)
 
