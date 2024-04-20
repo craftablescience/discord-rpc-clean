@@ -131,23 +131,24 @@ if (${BUILD_SHARED_LIBS})
 endif(${BUILD_SHARED_LIBS})
 
 # install
+if(DISCORDRPC_INSTALL_LIBRARY)
+    install(
+        TARGETS discord-rpc
+        EXPORT "discord-rpc"
+        RUNTIME
+            DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        LIBRARY
+            DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE
+            DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        INCLUDES
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+    )
 
-install(
-    TARGETS discord-rpc
-    EXPORT "discord-rpc"
-    RUNTIME
-        DESTINATION "${CMAKE_INSTALL_BINDIR}"
-    LIBRARY
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    ARCHIVE
-        DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    INCLUDES
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
-)
-
-install(
-    FILES
-        "../include/discord_rpc.h"
-		"../include/discord_register.h"
-    DESTINATION "include"
-)
+    install(
+        FILES
+            "../include/discord_rpc.h"
+            "../include/discord_register.h"
+        DESTINATION "include"
+    )
+endif()
