@@ -117,7 +117,7 @@ if(UNIX)
     endif (APPLE)
 endif(UNIX)
 
-target_include_directories(discord-rpc SYSTEM PRIVATE "${RAPIDJSON}/include")
+target_include_directories(discord-rpc SYSTEM PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../thirdparty/rapidjson/include")
 
 target_include_directories(discord-rpc PUBLIC "${CMAKE_CURRENT_LIST_DIR}/../include")
 
